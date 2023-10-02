@@ -1,4 +1,4 @@
 package com.example.pracricaformulario.domain.modelo
 
-class Review {
+data class Review(val nombre: String) {
 }
