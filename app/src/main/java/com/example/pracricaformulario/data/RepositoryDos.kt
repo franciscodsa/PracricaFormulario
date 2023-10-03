@@ -1,7 +1,7 @@
 package com.example.pracricaformulario.data
 
 import com.example.pracricaformulario.domain.modelo.Review
-
+//Preferiblemente usar este tipo de repositorio
 object RepositoryDos {
     private val  reviews = mutableListOf<Review>()
 
