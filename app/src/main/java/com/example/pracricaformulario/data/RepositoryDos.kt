@@ -6,7 +6,7 @@ object RepositoryDos {
     private val  reviews = mutableListOf<Review>()
 
     init {
-      reviews.add(Review("Review1"))
+      reviews.add(Review("Review1", "afghfg"))
     }
 
     private val mapReviews = mutableMapOf<String, Review>()

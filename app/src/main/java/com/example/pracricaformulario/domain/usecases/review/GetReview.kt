@@ -1,8 +1,8 @@
 package com.example.pracricaformulario.domain.usecases.review
 
-import com.example.pracricaformulario.data.Repository
+import com.example.pracricaformulario.data.RepositoryDos
 
 class GetReview {
-
-    operator fun invoke() = Repository.getInstance().getReview()
+    operator fun invoke() =
+        RepositoryDos.getReviews()
 }

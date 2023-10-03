@@ -2,6 +2,7 @@ package com.example.pracricaformulario.ui.pantallaMain
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.pracricaformulario.databinding.ActivityMainBinding
 import com.example.pracricaformulario.domain.usecases.review.AddReviewUseCase
@@ -27,8 +28,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
+        observarViewModel()
 
+    }
 
-
+    private fun observarViewModel() {
+        viewModel.uiState.observe(this@MainActivity) { state ->
+            state.mensaje?.let { mensaje ->
+                Toast.makeText(this@MainActivity, mensaje, Toast.LENGTH_SHORT).show()
+                viewModel.mensajeMostrado()
+            }
+        }
     }
 }

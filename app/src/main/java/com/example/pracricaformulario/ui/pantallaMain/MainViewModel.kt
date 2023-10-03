@@ -13,7 +13,7 @@ import com.example.pracricaformulario.utils.StringProvider
 class MainViewModel(
     private val stringProvider: StringProvider,
     private val addReviewUseCase: AddReviewUseCase,
-    private val getReview: GetReview,
+    private val getReviews: GetReview,
 ):ViewModel(){
 
     private val _uiState = MutableLiveData<MainState>()
@@ -29,8 +29,8 @@ class MainViewModel(
         }
     }
 
-    fun getReview(id: Int){
-        val reviews = getReview()
+    fun getReviews(id: Int){
+        val reviews = getReviews()
 
         if (reviews.size < id || id <0){
             _uiState.value = _uiState.value?.copy(mensaje = Constantes.MENSAJE)
@@ -50,7 +50,7 @@ class MainViewModel(
 class MainViewModelFactory(
     private val stringProvider: StringProvider,
     private val addReview: AddReviewUseCase,
-    private val getReview: GetReview,
+    private val getReviews: GetReview,
 
     ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -59,7 +59,7 @@ class MainViewModelFactory(
             return MainViewModel(
                 stringProvider,
                 addReview,
-                getReview,
+                getReviews,
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
