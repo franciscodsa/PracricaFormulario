@@ -1,11 +1,9 @@
 package com.example.pracricaformulario.ui.pantallaMain
 
-import com.example.pracricaformulario.domain.modelo.Review
+import com.example.pracricaformulario.domain.modelo.FichaMascota
 
-/*
-esto da error hay que ver que me falta*/
 data class MainState(
-    val review: Review = Review(nombre = "asda", establecimiento= "afghfg"),
+    val fichaMascota: FichaMascota = FichaMascota("null"),
     val mensaje: String? = null
 )
 
