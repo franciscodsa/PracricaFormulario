@@ -11,12 +11,12 @@
         android:id="@+id/editTextPropietario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="135dp"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Nombre del propietario"
         android:inputType="text"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,53 +32,55 @@
 
         <Button
             android:id="@+id/buttonAnterior"
-            android:layout_width="57dp"
-            android:layout_height="113dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Ant" />
 
         <Button
             android:id="@+id/buttonAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+
             android:text="A" />
 
         <Button
             android:id="@+id/buttonDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:text="D" />
 
         <Button
             android:id="@+id/buttonUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:text="U" />
 
         <Button
             android:id="@+id/buttonSiguiente"
-            android:layout_width="57dp"
-            android:layout_height="113dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Sig" />
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="130dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/editTextPropietario"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPropietario" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
         android:ems="10"
         android:hint="Nº de telefono"
         android:inputType="phone"
@@ -90,24 +92,26 @@
         android:id="@+id/editTextNombreMascota"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
         android:ems="10"
         android:hint="Nombre de mascota"
         android:inputType="text"
         android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/editTextPhone"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
-
+        app:layout_constraintStart_toStartOf="@+id/editTextPropietario"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPropietario" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="43dp"
-        android:gravity="center"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="32dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/textViewComportamiento"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/addDeleteUpdateLayout"
+        app:layout_constraintEnd_toEndOf="@+id/addDeleteUpdateLayout"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/seekBarComportamiento">
 
         <TextView
             android:id="@+id/textViewEspecie"
@@ -134,58 +138,60 @@
         android:id="@+id/textViewComportamiento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
+        android:layout_marginTop="24dp"
         android:text="Comportamiento"
-        app:layout_constraintBottom_toTopOf="@+id/seekBarComportamiento"
-        app:layout_constraintStart_toStartOf="@+id/seekBarComportamiento" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNombreMascota" />
 
     <SeekBar
         android:id="@+id/seekBarComportamiento"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toStartOf="@+id/textViewComportamientoBueno"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewComportamientoBueno" />
+        app:layout_constraintStart_toEndOf="@+id/textViewComportamientoMalo"
+        app:layout_constraintTop_toBottomOf="@+id/textViewComportamiento" />
 
     <TextView
         android:id="@+id/textViewComportamientoBueno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="71dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginStart="37dp"
         android:text="Bueno"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/seekBarComportamiento" />
+        app:layout_constraintStart_toEndOf="@+id/textViewComportamiento"
+        app:layout_constraintTop_toTopOf="@+id/seekBarComportamiento" />
 
     <TextView
         android:id="@+id/textViewComportamientoMalo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="244dp"
         android:text="Malo"
-        app:layout_constraintEnd_toStartOf="@+id/seekBarComportamiento"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/seekBarComportamiento" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="207dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="32dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/addDeleteUpdateLayout"
+        app:layout_constraintEnd_toStartOf="@+id/radioGroup"
         app:layout_constraintStart_toStartOf="parent">
 
         <CheckBox
             android:id="@+id/checkBoxEsterilizado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Esterilizado"
-            tools:layout_editor_absoluteX="216dp"
-            tools:layout_editor_absoluteY="459dp" />
+            android:text="Esterilizado" />
 
         <CheckBox
             android:id="@+id/checkBoxVacunado"

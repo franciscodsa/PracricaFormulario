@@ -10,6 +10,9 @@ import com.example.pracricaformulario.domain.usecases.review.AddFichaMascotaUseC
 import com.example.pracricaformulario.domain.usecases.review.GetFichaMascotas
 import com.example.pracricaformulario.utils.StringProvider
 
+
+
+
 class MainViewModel(
     private val stringProvider: StringProvider,
     private val addFichaMascotaUseCase: AddFichaMascotaUseCase,
@@ -23,41 +26,41 @@ class MainViewModel(
     fun addFichaMascota(fichaMascota: FichaMascota) {
 
         if (!addFichaMascotaUseCase(fichaMascota)) {
-            _uiState.value = MainState(
-                mensaje = stringProvider.getString(R.string.name)
-            )
+            _uiState.value = MainState(mensaje = stringProvider.getString(R.string.name))
             _uiState.value = _uiState.value?.copy(mensaje = Constantes.MENSAJE)
+        }else{
+            _uiState.value = MainState(mensaje = "Ficha añadida")
         }
-    }
-
-    fun getFichaMascotas(id: Int) {
-        val fichaMascotas = getFichaMascotas()
-
-        if (fichaMascotas.size < id || id < 0) {
-            _uiState.value = _uiState.value?.copy(mensaje = "mensaje")
-        } else
-            _uiState.value = _uiState.value?.copy(fichaMascota = fichaMascotas[id])
     }
 
 
     // Índice actual
-    var currentIndex = 0
-    fun advanceToNextOwner() {
-        // Incrementa el índice
-
+    private var indiceActual = 0
+    fun mostrarSiguienteFicha() {
         // Obtén la lista de fichas de mascota
         val fichaMascotas = getFichaMascotas()
 
         // Verifica si el índice está dentro de los límites de la lista
-        if (currentIndex < fichaMascotas.size) {
+        if (indiceActual < fichaMascotas.size) {
+
             // Actualiza el mensaje con el nombre del propietario actual
-            val currentFicha = fichaMascotas[currentIndex]
-            _uiState.value = MainState(mensaje = currentFicha.propietario)
-            _uiState.value = _uiState.value?.copy(fichaMascota = fichaMascotas[currentIndex])
-            currentIndex++
-        } else {
+            val fichaActual = fichaMascotas[indiceActual]
+            _uiState.value = MainState(fichaMascota = fichaActual, mensaje = null)
+            indiceActual++
+        } else  {
             // Si no hay más propietarios, muestra un mensaje de finalización
-            _uiState.value = MainState(mensaje = "No hay más propietarios")
+            _uiState.value = MainState(mensaje = Constantes.NO_HAY_SIGUIENTE)
+        }
+    }
+
+    fun mostrarFichaAnterior() {
+        if (indiceActual > 0) {
+            indiceActual--
+            val fichaMascotas = getFichaMascotas()
+            val fichaActual = fichaMascotas[indiceActual]
+            _uiState.value = MainState(fichaMascota = fichaActual, mensaje = null)
+        } else {
+            _uiState.value = MainState(mensaje = Constantes.NO_HAY_ANTERIOR)
         }
     }
 
@@ -73,7 +76,6 @@ class MainViewModelFactory(
     private val stringProvider: StringProvider,
     private val addFichaMascota: AddFichaMascotaUseCase,
     private val getFichaMascotas: GetFichaMascotas,
-
     ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
