@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import com.example.pracricaformulario.databinding.ActivityMainBinding
 import com.example.pracricaformulario.domain.modelo.FichaMascota
 import com.example.pracricaformulario.domain.usecases.review.AddFichaMascotaUseCase
+import com.example.pracricaformulario.domain.usecases.review.DeleteFichaMascota
 import com.example.pracricaformulario.domain.usecases.review.GetFichaMascotas
 import com.example.pracricaformulario.utils.StringProvider
 
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
             StringProvider.instances(this),
             AddFichaMascotaUseCase(),
             GetFichaMascotas(),
+            DeleteFichaMascota(),
         )
     }
 
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             setContentView(root)
 
             buttonAdd.setOnClickListener{
-                viewModel.addFichaMascota(FichaMascota(editTextPropietario.text.toString()))
+                viewModel.addFichaMascota(FichaMascota(editTextPropietario.text.toString(), editTextEmail.text.toString()))
             }
 
             buttonSiguiente.setOnClickListener{
@@ -38,6 +40,10 @@ class MainActivity : AppCompatActivity() {
 
             buttonAnterior.setOnClickListener {
                 viewModel.mostrarFichaAnterior()
+            }
+
+            buttonDelete.setOnClickListener {
+                viewModel.eliminarFichaActual()
             }
 
 
@@ -51,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                     // Si no hay mensaje (mensaje es igual a null), muestra el nombre del propietario en el EditText
                     //sin mostrar ningun toast
                     editTextPropietario.setText(state.fichaMascota.propietario)
+                    editTextEmail.setText(state.fichaMascota.email)
                 }
             }
 
