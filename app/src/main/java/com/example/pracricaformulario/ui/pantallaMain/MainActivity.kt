@@ -9,6 +9,7 @@ import com.example.pracricaformulario.domain.modelo.FichaMascota
 import com.example.pracricaformulario.domain.usecases.review.AddFichaMascotaUseCase
 import com.example.pracricaformulario.domain.usecases.review.DeleteFichaMascota
 import com.example.pracricaformulario.domain.usecases.review.GetFichaMascotas
+import com.example.pracricaformulario.domain.usecases.review.UpdateFichaMascotaUseCase
 import com.example.pracricaformulario.utils.StringProvider
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
             AddFichaMascotaUseCase(),
             GetFichaMascotas(),
             DeleteFichaMascota(),
+            UpdateFichaMascotaUseCase(),
         )
     }
 
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             setContentView(root)
 
             buttonAdd.setOnClickListener{
-                viewModel.addFichaMascota(FichaMascota(editTextPropietario.text.toString(), editTextEmail.text.toString()))
+                viewModel.addFichaMascota(FichaMascota(editTextPropietario.text.toString(), editTextEmail.text.toString(), editTextPhone.text.toString()))
             }
 
             buttonSiguiente.setOnClickListener{
@@ -46,6 +48,9 @@ class MainActivity : AppCompatActivity() {
                 viewModel.eliminarFichaActual()
             }
 
+            buttonUpdate.setOnClickListener{
+                viewModel.modificarFichaActual(FichaMascota(editTextPropietario.text.toString(),editTextEmail.text.toString(), editTextPhone.text.toString()))
+            }
 
             viewModel.uiState.observe(this@MainActivity) { state ->
                 //Verifica si hay mensaje en el main state (que mensaje no sea igual a null)
@@ -58,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                     //sin mostrar ningun toast
                     editTextPropietario.setText(state.fichaMascota.propietario)
                     editTextEmail.setText(state.fichaMascota.email)
+                    editTextPhone.setText(state.fichaMascota.telefono)
                 }
             }
 

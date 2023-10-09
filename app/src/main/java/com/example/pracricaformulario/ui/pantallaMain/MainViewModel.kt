@@ -9,6 +9,7 @@ import com.example.pracricaformulario.domain.modelo.FichaMascota
 import com.example.pracricaformulario.domain.usecases.review.AddFichaMascotaUseCase
 import com.example.pracricaformulario.domain.usecases.review.DeleteFichaMascota
 import com.example.pracricaformulario.domain.usecases.review.GetFichaMascotas
+import com.example.pracricaformulario.domain.usecases.review.UpdateFichaMascotaUseCase
 import com.example.pracricaformulario.utils.StringProvider
 
 
@@ -19,6 +20,7 @@ class MainViewModel(
     private val addFichaMascotaUseCase: AddFichaMascotaUseCase,
     private val getFichaMascotas: GetFichaMascotas,
     private val deleteFichaMascota: DeleteFichaMascota,
+    private val updateFichaMascotaUseCase: UpdateFichaMascotaUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<MainState>()
@@ -70,9 +72,20 @@ class MainViewModel(
             cargarFichaMascotas() // Recargar la lista de fichas después de eliminar
             indiceActual = -1 // No hay ficha actual después de eliminar
             _uiState.value = MainState(mensaje = Constantes.FICHA_ELIMINADA)
+        } else {
+            _uiState.value = MainState(mensaje = "No hay fichas para eliminar")
         }
     }
 
+    fun modificarFichaActual(fichaMascotaModificada: FichaMascota){
+        TODO("No usar el copy y crear nuevo mainstate en el mismo metodo. usa uno o el otro")
+        if (fichaMascotas.isNotEmpty() && indiceActual >= 0 && indiceActual < fichaMascotas.size) {
+            updateFichaMascotaUseCase(fichaMascotas[indiceActual], fichaMascotaModificada)
+            _uiState.value = _uiState.value?.copy(mensaje = "ficha modificada")
+        }else{
+            _uiState.value = MainState(mensaje = "No hay fichas para modificar")
+        }
+    }
     fun mensajeMostrado() {
         _uiState.value = _uiState.value?.copy(mensaje = null)
     }
@@ -83,18 +96,20 @@ class MainViewModel(
  */
 class MainViewModelFactory(
     private val stringProvider: StringProvider,
-    private val addFichaMascota: AddFichaMascotaUseCase,
+    private val addFichaMascotaUseCase: AddFichaMascotaUseCase,
     private val getFichaMascotas: GetFichaMascotas,
     private val deleteFichaMascota: DeleteFichaMascota,
+    private val updateFichaMascotaUseCase: UpdateFichaMascotaUseCase,
     ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return MainViewModel(
                 stringProvider,
-                addFichaMascota,
+                addFichaMascotaUseCase,
                 getFichaMascotas,
                 deleteFichaMascota,
+                updateFichaMascotaUseCase
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
