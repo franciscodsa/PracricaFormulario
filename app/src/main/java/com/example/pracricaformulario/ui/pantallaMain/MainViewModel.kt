@@ -78,7 +78,7 @@ class MainViewModel(
     }
 
     fun modificarFichaActual(fichaMascotaModificada: FichaMascota){
-        TODO("No usar el copy y crear nuevo mainstate en el mismo metodo. usa uno o el otro")
+        //TODO("No usar el copy y crear nuevo mainstate en el mismo metodo. usa uno o el otro")
         if (fichaMascotas.isNotEmpty() && indiceActual >= 0 && indiceActual < fichaMascotas.size) {
             updateFichaMascotaUseCase(fichaMascotas[indiceActual], fichaMascotaModificada)
             _uiState.value = _uiState.value?.copy(mensaje = "ficha modificada")
