@@ -6,9 +6,9 @@ object Repository {
     private val  fichaMascotas = mutableListOf<FichaMascota>()
 
     init {
-      fichaMascotas.add(FichaMascota("Juan", "juan@mail.com"))
-      fichaMascotas.add(FichaMascota("Pepe", "pepe@mail.com"))
-      fichaMascotas.add(FichaMascota("Alejandro", "ale@mail.com"))
+      fichaMascotas.add(FichaMascota("Juan", "juan@mail.com", "87646413"))
+      fichaMascotas.add(FichaMascota("Pepe", "pepe@mail.com", "648325432"))
+      fichaMascotas.add(FichaMascota("Alejandro", "ale@mail.com", "65432101"))
     }
 
     fun addFichaMascota(fichaMascota: FichaMascota)=
@@ -21,4 +21,9 @@ object Repository {
 
     fun deleteFichaMascota(fichaMascota: FichaMascota)=
         fichaMascotas.remove(fichaMascota)
+
+    fun updateFichaMascota(fichaMascota: FichaMascota, fichaMascotaUpdated: FichaMascota) {
+        val indice = fichaMascotas.indexOf(fichaMascota)
+        fichaMascotas[indice] = fichaMascotaUpdated
+    }
 }
