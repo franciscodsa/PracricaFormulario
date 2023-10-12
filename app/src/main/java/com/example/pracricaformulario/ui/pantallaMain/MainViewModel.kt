@@ -13,8 +13,6 @@ import com.example.pracricaformulario.domain.usecases.review.UpdateFichaMascotaU
 import com.example.pracricaformulario.utils.StringProvider
 
 
-
-
 class MainViewModel(
     private val stringProvider: StringProvider,
     private val addFichaMascotaUseCase: AddFichaMascotaUseCase,
@@ -39,30 +37,35 @@ class MainViewModel(
     }
 
     fun addFichaMascota(fichaMascota: FichaMascota) {
-        if (!addFichaMascotaUseCase(fichaMascota)) {
-            _uiState.value = MainState(mensaje = stringProvider.getString(R.string.name))
-            _uiState.value = _uiState.value?.copy(mensaje = Constantes.MENSAJE)
+
+        if (fichaMascota.propietario.isBlank() || fichaMascota.nombreMascota.isBlank() || fichaMascota.email.isBlank() || fichaMascota.telefono.isBlank()) {
+            _uiState.value = MainState(mensaje = Constantes.DEDES_RELLENAR_TODOS_LOS_CAMPOS)
         } else {
-            cargarFichaMascotas() // Recargar la lista de fichas
-            mostrarSiguienteFicha()
-            _uiState.value = MainState(mensaje = Constantes.FICHA_AÑADIDA)
+            if (!addFichaMascotaUseCase(fichaMascota)) {
+                _uiState.value = MainState(mensaje = stringProvider.getString(R.string.name))
+                _uiState.value = _uiState.value?.copy(mensaje = Constantes.MENSAJE)
+            } else {
+                cargarFichaMascotas() // Recargar la lista de fichas
+                _uiState.value = _uiState.value?.copy(mensaje = Constantes.FICHA_ANADIDA)
+            }
         }
+
     }
 
     fun mostrarSiguienteFicha() {
-        if (fichaMascotas.isNotEmpty()) {
-            indiceActual = (indiceActual + 1) % fichaMascotas.size
-            val fichaActual = fichaMascotas[indiceActual]
-            _uiState.value = MainState(fichaMascota = fichaActual, mensaje = null)
+        if (fichaMascotas.isNotEmpty() && indiceActual < fichaMascotas.size - 1) {
+            indiceActual++
         }
+        val fichaActual = fichaMascotas.getOrElse(indiceActual) { fichaMascotas.last() }
+        _uiState.value = MainState(fichaMascota = fichaActual, mensaje = null)
     }
 
     fun mostrarFichaAnterior() {
-        if (fichaMascotas.isNotEmpty()) {
-            indiceActual = (indiceActual - 1 + fichaMascotas.size) % fichaMascotas.size
-            val fichaActual = fichaMascotas[indiceActual]
-            _uiState.value = MainState(fichaMascota = fichaActual, mensaje = null)
+        if (fichaMascotas.isNotEmpty() && indiceActual > 0) {
+            indiceActual--
         }
+        val fichaActual = fichaMascotas.getOrElse(indiceActual) { fichaMascotas.first() }
+        _uiState.value = MainState(fichaMascota = fichaActual, mensaje = null)
     }
 
     fun eliminarFichaActual() {
@@ -73,22 +76,27 @@ class MainViewModel(
             indiceActual = -1 // No hay ficha actual después de eliminar
             _uiState.value = MainState(mensaje = Constantes.FICHA_ELIMINADA)
         } else {
-            _uiState.value = MainState(mensaje = "No hay fichas para eliminar")
+            _uiState.value = MainState(mensaje = Constantes.NO_HAY_FICHA_QUE_ELIMINAR)
         }
     }
 
-    fun modificarFichaActual(fichaMascotaModificada: FichaMascota){
-        //TODO("No usar el copy y crear nuevo mainstate en el mismo metodo. usa uno o el otro")
+    fun modificarFichaActual(fichaMascotaModificada: FichaMascota) {
         if (fichaMascotas.isNotEmpty() && indiceActual >= 0 && indiceActual < fichaMascotas.size) {
             updateFichaMascotaUseCase(fichaMascotas[indiceActual], fichaMascotaModificada)
-            _uiState.value = _uiState.value?.copy(mensaje = "ficha modificada")
-        }else{
-            _uiState.value = MainState(mensaje = "No hay fichas para modificar")
+            _uiState.value = _uiState.value?.copy(
+                mensaje = Constantes.FICHA_MODIFICADA,
+                fichaMascota = fichaMascotas[indiceActual]
+            )
+        } else {
+            _uiState.value = MainState(mensaje = Constantes.NO_HAY_FICHA_QUE_MODIFICAR)
         }
     }
+
     fun mensajeMostrado() {
         _uiState.value = _uiState.value?.copy(mensaje = null)
     }
+
+
 }
 
 /**
@@ -100,11 +108,10 @@ class MainViewModelFactory(
     private val getFichaMascotas: GetFichaMascotas,
     private val deleteFichaMascota: DeleteFichaMascota,
     private val updateFichaMascotaUseCase: UpdateFichaMascotaUseCase,
-    ) : ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return MainViewModel(
+            @Suppress("UNCHECKED_CAST") return MainViewModel(
                 stringProvider,
                 addFichaMascotaUseCase,
                 getFichaMascotas,
